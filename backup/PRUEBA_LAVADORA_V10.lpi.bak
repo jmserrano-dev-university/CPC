@@ -1,0 +1,390 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <PathDelim Value="\"/>
+    <General>
+      <Flags>
+        <LRSInOutputDirectory Value="False"/>
+      </Flags>
+      <MainUnit Value="0"/>
+      <Title Value="TEST CPC"/>
+      <UseAppBundle Value="False"/>
+      <Icon Value="0"/>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <AutoIncrementBuild Value="True"/>
+      <BuildNr Value="75"/>
+      <Language Value="040A"/>
+      <StringTable CompanyName="UNIVERSIDAD DE JAEN" ProductName="PRUEBA LAVADORA" InternalName="TEST.EXE" LegalCopyright="(C) 2012 DPTO. ELECTRONICA Y AUTOMATICA" ProductVersion="1.1.0"/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <CommandLineParams Value="A"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="3">
+      <Item1>
+        <PackageName Value="pl_cindy"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCLBase"/>
+        <MinVersion Major="1" Release="1" Valid="True"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
+    </RequiredPackages>
+    <Units Count="23">
+      <Unit0>
+        <Filename Value="PRUEBA_LAVADORA_V10.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PRUEBA_LAVADORA_V10"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="4"/>
+        <CursorPos X="14" Y="2"/>
+        <UsageCount Value="201"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="u_principal.pas"/>
+        <ComponentName Value="F_PRINCIPAL"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_principal"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="28"/>
+        <CursorPos X="33" Y="13"/>
+        <UsageCount Value="197"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="u_main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="u_main"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="118"/>
+        <CursorPos X="17" Y="125"/>
+        <UsageCount Value="202"/>
+        <Bookmarks Count="1">
+          <Item0 X="1" Y="99" ID="0"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="u_test.pas"/>
+        <ComponentName Value="F_TEST"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_test"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="103"/>
+        <CursorPos X="36" Y="119"/>
+        <UsageCount Value="202"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="u_dosis.pas"/>
+        <ComponentName Value="F_DOSIS"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_dosis"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="663"/>
+        <CursorPos X="31" Y="668"/>
+        <UsageCount Value="196"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="u_carga.pas"/>
+        <ComponentName Value="F_INICIAL"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_carga"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="18" Y="13"/>
+        <UsageCount Value="207"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="u_rs232.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="u_rs232"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="25" Y="124"/>
+        <UsageCount Value="201"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="u_procesos.pas"/>
+        <ComponentName Value="F_PROCESOS"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_procesos"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="612"/>
+        <CursorPos X="19" Y="625"/>
+        <UsageCount Value="197"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="u_setup.pas"/>
+        <ComponentName Value="F_SETUP"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_setup"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="290"/>
+        <CursorPos X="19" Y="317"/>
+        <UsageCount Value="196"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="u_calc.pas"/>
+        <ComponentName Value="F_CALC"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_calc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="357"/>
+        <CursorPos X="18" Y="381"/>
+        <UsageCount Value="196"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="C:\lazarus\lcl\dialogs.pp"/>
+        <UnitName Value="Dialogs"/>
+        <TopLine Value="13"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="867"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="C:\pp\rtl\wince\wininc\coredll.inc"/>
+        <TopLine Value="406"/>
+        <CursorPos X="18" Y="465"/>
+        <UsageCount Value="2"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="u_dialog.pas"/>
+        <ComponentName Value="F_DIALOG"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_dialog"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="34" Y="8"/>
+        <UsageCount Value="6"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="u_sondas.pas"/>
+        <ComponentName Value="F_SONDAS"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_sondas"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="336"/>
+        <CursorPos X="3" Y="386"/>
+        <UsageCount Value="95"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="C:\lazarus\lcl\customtimer.pas"/>
+        <UnitName Value="CustomTimer"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="155"/>
+        <CursorPos X="1" Y="182"/>
+        <UsageCount Value="6"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\AGROVIN\SX16_2440_V114_TYPHON\u_main.pas"/>
+        <UnitName Value="u_main"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="613"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="6"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="C:\lazarus\lcl\utf8process.pp"/>
+        <UnitName Value="UTF8Process"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="49"/>
+        <CursorPos X="28" Y="76"/>
+        <UsageCount Value="6"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="C:\codetyphon\fpcsrc\rtl\win\wininc\struct.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="800"/>
+        <CursorPos X="31" Y="809"/>
+        <UsageCount Value="10"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="C:\codetyphon\fpcsrc\rtl\win\wininc\defines.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3037"/>
+        <CursorPos X="6" Y="3051"/>
+        <UsageCount Value="10"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="C:\codetyphon\lazarus\packager\registration\fcllaz.pas"/>
+        <UnitName Value="fcllaz"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="u_inicial.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="F_INICIAL"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_inicial"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="183"/>
+        <CursorPos X="57" Y="17"/>
+        <UsageCount Value="32"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="u_flash.pas"/>
+        <ComponentName Value="F_FLASH"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_flash"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="6"/>
+        <CursorPos X="44" Y="29"/>
+        <UsageCount Value="21"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="C:\codetyphon\lazarus\lcl\interfaces\wince\wincewsmenus.pp"/>
+        <UnitName Value="WinCEWSMenus"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1107"/>
+        <CursorPos X="5" Y="1123"/>
+        <UsageCount Value="10"/>
+      </Unit22>
+    </Units>
+    <JumpHistory Count="19" HistoryIndex="18">
+      <Position1>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="225" Column="25" TopLine="215"/>
+      </Position1>
+      <Position2>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="226" Column="25" TopLine="216"/>
+      </Position2>
+      <Position3>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="227" Column="25" TopLine="217"/>
+      </Position3>
+      <Position4>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="226" Column="25" TopLine="216"/>
+      </Position4>
+      <Position5>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="213" Column="1" TopLine="196"/>
+      </Position5>
+      <Position6>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="251" Column="1" TopLine="234"/>
+      </Position6>
+      <Position7>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="69" Column="51" TopLine="50"/>
+      </Position7>
+      <Position8>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="120" Column="59" TopLine="100"/>
+      </Position8>
+      <Position9>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="121" Column="59" TopLine="101"/>
+      </Position9>
+      <Position10>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="120" Column="59" TopLine="100"/>
+      </Position10>
+      <Position11>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="121" Column="59" TopLine="101"/>
+      </Position11>
+      <Position12>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="123" Column="59" TopLine="103"/>
+      </Position12>
+      <Position13>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="122" Column="59" TopLine="102"/>
+      </Position13>
+      <Position14>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="123" Column="59" TopLine="103"/>
+      </Position14>
+      <Position15>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="122" Column="59" TopLine="102"/>
+      </Position15>
+      <Position16>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="123" Column="59" TopLine="103"/>
+      </Position16>
+      <Position17>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="122" Column="59" TopLine="102"/>
+      </Position17>
+      <Position18>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="224" Column="22" TopLine="220"/>
+      </Position18>
+      <Position19>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="223" Column="22" TopLine="219"/>
+      </Position19>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="9"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="QTEST.EXE" ApplyConventions="False"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+    </SearchPaths>
+    <CodeGeneration>
+      <TargetCPU Value="i386"/>
+      <TargetOS Value="win32"/>
+    </CodeGeneration>
+    <Linking>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

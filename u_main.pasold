@@ -1,0 +1,746 @@
+unit u_main;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, MMSystem,SysUtils,Dialogs,Windows,IniFiles,DateUtils, FileUtil, LResources, Forms, u_rs232;
+
+  type
+    pconfiguracion=record
+         LEFT: integer;
+         TOP:integer;
+         NUMEROGRUPOS:integer;
+         RECONEXION:integer;
+         GRABARLOG:string;
+         GAS : string;
+         SONIDO : string;
+         PINBLOQUEO : string;
+         BLOQUEO : string;
+         ARRANQUEAUTO : string;
+         COMPORT : integer;
+         MUESTRAS:integer; //Nº DE MUESTRAS TOTAL DURANTE EL TRATAMIENTO
+         INTERVALOESTADO:integer;  // INTERVALO ENTRE GRABACIONES DEL ESTADO DEL PROCESO
+         end;
+
+     outlet=record
+         etiqueta:string;
+         tipotratamiento : Integer;
+         dosis : Single;
+         volumenVINO : integer;          // en litros o Hl
+         factorvolumen : integer;        // indica si son l o Hl
+         duracion : integer;             // en min, hor:, di:
+         factorduracion : integer;       // indica si min, hor:, di:
+         prevtipotratamiento : integer;
+         prevdosis : Single;
+         prevvolumenVINO : integer;      // en litros o Hl
+         prevfactorvolumen : integer;    // indica si son l o Hl
+         prevduracion : integer;         // en min, hor:, di:
+         prevfactorduracion : integer;   // indica si min, hor:, di:
+         incluir : Boolean;
+         dosificar: Boolean;
+         tratamientoprevio : Boolean;
+         totalgas:Longint;
+         antgas:longint;
+         dosisacumulada:single;
+         qr:single;
+         etiquetaestado:string;
+         totaltiempo : Longint;             // en segundos
+         totalvolumen : Longint;            // en ml
+         prevtotaltiempo : Longint;         //en segundos
+         prevtotalvolumen : Longint;        //en ml
+         tiemporestante : Longint;
+         tiempoentrecomprobaciones : Longint;
+         fechainicio : TDateTime;
+         fechafin : TDateTime;
+         volumenrestante : Longint;          // en ml
+         estadociclo : integer;
+         estadoproceso : integer;
+         zeropresion : integer;
+         sondatemperatura : string;
+         STRA :array [1..20] of char;
+         TRAok : Boolean;
+         Tmax : integer;
+         Tmin : integer;
+         Vmax : integer;
+         Vmin : integer;
+         sondaredox : string;
+         SORP :array [1..20] of char;
+         ORPok : Boolean;
+         Temperatura : Single;
+         PotencialRedox : Single;
+         log : Boolean;
+         grabarcada : integer;
+         intervalolog:Longint;
+         tanterior:Longint;
+         numerrores1W : integer;
+         cuentaerror:integer;
+         error:integer;
+         run:integer;
+    end;
+
+  const
+
+     IOCTL_BUZZ_ON = 16;
+     IOCTL_BUZZ_OFF= 17;
+     DOSSEGUNDOS=2000;
+
+
+     MAGMINUTOS = 1;
+     MAGHORAS = 2;
+     MAGDIAS = 3;
+     MAGMESES = 4;
+     MAGLITROS = 5;
+     MAGHL = 6;
+     TTMICRO = 0;
+     TTMACRO = 1;
+     TTVARIABLE = 2;
+     //Etiquetas de la magnitud
+     TGDOSIS=1;
+     TGVOLUMEN=2;
+     TGDURACION=3;
+     TGFECHA=4;
+     TGHORA=5;
+     //Estados posibles
+     STDETENIDO = 0;
+     STDOSIFICANDO = 1;
+     STFINALIZADO = 2;
+     STPAUSA = 3;
+     STDETENIENDO = 4;
+
+     //Control de la Transmision-Recepcion
+     ESPERANDO_SOLICITUD = 0;
+     ESPERANDO_RESPUESTA = 1;
+     ESPERANDO_RESPUESTA_SINACK = 2;
+     RECIBIDO_OK = 3;
+     RECIBIDO_ERROR = 4;
+     PENDIENTE_PROCESAR = 5;
+     ESPERANDO_ACK = 6;
+     MAXTIMEOUTSINPAQUETE = 10;
+
+     //ESTADOS DE TRABAJO
+     ESLLENANDO=0;
+     ESMIDIENDO1=1;
+     ESVACIANDO=2;
+     ESMIDIENDO2=3;
+     ESESPERANDO=4;
+     ESCLIQUER=5;
+     ESMEDIRPRESION=6;
+     ESNODOSIFICAR=7;
+     ESINCLUIRTRAT=8;
+     ESNOINCLUIRTRAT=9;
+     ESPAUSA=10;
+     ESFINTRATAMIENTO=11;
+     ESFIN=20;
+
+     // Valores extremos
+     MAXMIN = 267840;           //minutos para 6 meses
+     MAXSEC = 60 * MAXMIN;
+     MAXHORAS = 4464;     //horas para 6 meses
+     MAXDIAS = 186;            	//dias para 6 meses
+     MAXMESES = 6;	       //6 meses
+     MAXDOSIS = 2000;	    //999ml/l
+     MAXVOLUMEN = 40000000; //40.000 l
+     MAXTIEMPO= 10368000; //4 MESESE EN SEGUNDOS
+     MAXml = 40000000;     //40M ml=40.000l
+     MAXQr = 100;           //200ml/segundo
+     MinPr = 1000;         //Presión mínima a la entrada
+     MAXERRORES = 10;      // Errores consecutivos en la lectura 1W para considerar error
+     MINHOURINTIME = 1800; //Revisión cada 30 minutos como mín
+     MAXMUESTRAS = 2000;   // MAXIMO NUMERO DE MUESTRA QUE SE ALMACENAN
+     MAXERRCOM = 2;      //
+     MINGRABAR=2;       //Tiempo entre grabaciones del estado del proceso.
+     MAXESPERA=7;       // pantalla de espera incial para arranque automático
+     MAXFUERA=3;
+     MODO_NORMAL=0;
+     MODO_AUTOMATICO=1;
+     MINPRESION=3000;
+     MAXPRESION=350;
+     MAXFUGA=20;
+
+function InitCalculos(sal: Integer):Integer;
+function EnviarTratamiento(sal:Integer):Integer;
+function GetPresion(sal:integer):string;
+function RecibirDatos(var rc:string;tmout,lg:integer):integer;
+function EnviarComando(gp:integer;cmd:char;sal:integer;par:integer;send:string; var rcv:string;maxcr:integer):integer;
+function ArrancarProcesos():integer;
+procedure EnviarDatos(ss:string);
+procedure GrabarIni();
+procedure CargarIni();
+procedure GrabarEstado();
+procedure GrabarConfig();
+procedure GrabarSalidas();
+procedure LogDatos(sl:integer;cd:string);
+procedure Bip(duracion:integer);
+procedure SonarAlarma();
+var
+   salida: array [1..16] of outlet;
+   prevsalida: array [1..16] of outlet;
+   miconfiguracion:pconfiguracion;
+   tiempoengrabar,comport,beepdriver:longword;
+   slselect,TimeoutRX,paqueterx,prevselect, modo_arranque:integer;
+   master,solicitando_datos, sonando, paquetelisto,pitido,arrancar_auto : Boolean;
+   seccion, sonidoalarma, respuestacomando, datos_serie_in, dataos_serie_out , paquete_in, paquete_respuesta: String;
+
+implementation
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+procedure GrabarIni();
+begin
+     GrabarConfig();
+     GrabarSalidas();
+end;
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+procedure GrabarConfig();
+ var
+  ConfiguracionSalidas: TIniFile;
+begin
+  ConfiguracionSalidas := TIniFile.Create( Application.Location+'\CONFIG_'+seccion+'.INI' );
+  try
+  ConfiguracionSalidas.WriteString('CFG', 'ARRANQUE_AUTO', miconfiguracion.ARRANQUEAUTO);
+  ConfiguracionSalidas.WriteString('CFG', 'GRABARLOG', miconfiguracion.GRABARLOG);
+  ConfiguracionSalidas.WriteString('CFG', 'SONIDO', miconfiguracion.SONIDO);
+  ConfiguracionSalidas.WriteString('CFG', 'GAS', miconfiguracion.GAS);
+  ConfiguracionSalidas.WriteInteger('CFG', 'RECONEXION', miconfiguracion.RECONEXION);
+  finally
+  ConfiguracionSalidas.Free;
+  end;
+  end;
+
+
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+procedure GrabarSalidas();
+var
+ ConfiguracionSalidas: TIniFile;
+  i,j,k:integer;
+  sl,aux:string;
+begin
+ ConfiguracionSalidas := TIniFile.Create( Application.Location+'\CONFIG_'+seccion+'.INI' );
+  try
+     for j:=1 to miconfiguracion.NUMEROGRUPOS do
+       begin
+        for k:=1 to 4 do
+        begin
+        i:=4*(j-1)+k;
+         if ((salida[i].duracion<>prevsalida[i].duracion) or (salida[i].dosis<>prevsalida[i].dosis) or
+             (salida[i].volumenVINO<>prevsalida[i].volumenVINO) or (salida[i].factorvolumen<>prevsalida[i].factorvolumen) or
+                 (salida[i].factorduracion<>prevsalida[i].factorduracion) or (salida[i].tipotratamiento<>prevsalida[i].tipotratamiento) or
+                     (salida[i].incluir<>prevsalida[i].incluir)) then
+           begin
+            sl:='SALIDA_'+IntTostr(i);
+            ConfiguracionSalidas.WriteInteger(sl, 'TIPO_TRATAMIENTO', salida[i].tipotratamiento);
+            ConfiguracionSalidas.WriteFloat(sl, 'DOSIS', salida[i].dosis );
+            ConfiguracionSalidas.WriteInteger(sl, 'VOLUMEN', salida[i].volumenVINO);
+            If salida[i].factorvolumen = MAGLITROS Then
+               ConfiguracionSalidas.Writestring(sl, 'UND_VOLUMEN','L')
+            else
+               ConfiguracionSalidas.Writestring(sl, 'UND_VOLUMEN','HL');
+               aux:='MINUTOS';
+             If salida[i].factorduracion = MAGHORAS then  aux:= 'HORAS';
+             If salida[i].factorduracion = MAGDIAS then  aux:= 'DIAS';
+             If salida[i].factorduracion = MAGMESES then  aux:= 'MESES';
+             ConfiguracionSalidas.WriteInteger(sl, 'DURACION', salida[i].duracion);
+             ConfiguracionSalidas.WriteString(sl, 'UND_TIEMPO', aux);
+             aux:='NO';
+             If salida[i].incluir = True then  aux:= 'SI';
+             ConfiguracionSalidas.WriteString(sl, 'INCLUIR', aux);
+             end;
+        end;
+      end;
+   finally
+  ConfiguracionSalidas.Free;
+  end;
+
+end;
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+procedure GrabarEstado();
+var
+  EstadoSalidas: TIniFile;
+  i,j,k:integer;
+
+  sl:string;
+
+begin
+  tiempoengrabar:=gettickcount();
+
+  try
+  EstadoSalidas := TIniFile.Create( Application.Location+'\ESTADO_'+seccion+'.INI' );
+//  EstadoSalidas := TIniFile.Create( 'SD Card\ESTADO_'+seccion+'.INI' );
+   for j:=1 to miconfiguracion.NUMEROGRUPOS do
+   begin
+    for k:=1 to 4 do
+    begin
+    i:=4*(j-1)+k;
+      if ((salida[i].estadoproceso<>prevsalida[i].estadoproceso) or (salida[i].tiemporestante<>prevsalida[i].tiemporestante) or
+      (salida[i].volumenrestante<>prevsalida[i].volumenrestante) or (salida[i].totalgas<>prevsalida[i].totalgas) or
+      (salida[i].dosisacumulada<>prevsalida[i].dosisacumulada)) then
+   begin
+    sl:='SALIDA_'+IntTostr(i);
+    EstadoSalidas.WriteInteger(sl, 'ESTADO', salida[i].estadoproceso );
+    EstadoSalidas.WriteInteger(sl, 'TIEMPO_RESTANTE', salida[i].tiemporestante);
+    EstadoSalidas.WriteInteger(sl, 'VOLUMEN_RESTANTE', salida[i].volumenrestante);
+    EstadoSalidas.WriteInteger(sl, 'TOTAL_GAS', salida[i].totalgas);
+    EstadoSalidas.WriteFloat(sl, 'DOSIS_ACUMULADA', salida[i].dosisacumulada);
+    Application.ProcessMessages;
+    end;
+    end;
+  end;
+    finally
+    EstadoSalidas.Free;
+  end;
+    tiempoengrabar:=gettickcount()-tiempoengrabar;
+end;
+
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+procedure CargarIni();
+var
+  ConfiguracionSalidas, EstadoSalidas: TIniFile;
+  i,j,k:integer;
+  sl,aux:string;
+   P:Pointer;
+  begin
+ {$ifdef WINCE}
+  If (beepdriver = INVALID_HANDLE_VALUE) then
+  begin
+    P := PWideChar(UTF8Decode('LED1:'));
+    beepdriver := CreateFile(P, GENERIC_READ Or GENERIC_WRITE, 0, nil, OPEN_EXISTING, 0, longword(0));
+    If (beepdriver = INVALID_HANDLE_VALUE) then  showmessage('ERROR BEEP SYSTEM!');
+  end;
+  {$endif}
+ ConfiguracionSalidas := TIniFile.Create( Application.Location+'\CONFIG_'+seccion+'.INI' );
+  try
+  miconfiguracion.COMPORT:= ConfiguracionSalidas.ReadInteger('CFG', 'COM_PORT', 1 );
+  miconfiguracion.SONIDO:= ConfiguracionSalidas.ReadString('CFG', 'SONIDO', 'SI');
+  sonidoalarma:=ConfiguracionSalidas.readstring('CFG','TONO','notify.wav');
+  miconfiguracion.GAS:= ConfiguracionSalidas.ReadString('CFG', 'GAS', 'O2');
+  miconfiguracion.ARRANQUEAUTO:=ConfiguracionSalidas.ReadString('CFG', 'ARRANQUE_AUTO', 'NO' );
+  miconfiguracion.GRABARLOG:=ConfiguracionSalidas.ReadString('CFG', 'GRABARLOG', 'SI' );
+  miconfiguracion.RECONEXION:=ConfiguracionSalidas.ReadInteger('CFG', 'RECONEXION', 10 );
+  miconfiguracion.NUMEROGRUPOS:=ConfiguracionSalidas.ReadInteger('CFG', 'GRUPOS', 1 );
+  miconfiguracion.LEFT:=ConfiguracionSalidas.ReadInteger('CFG', 'LEFT', 0);
+  miconfiguracion.TOP:=ConfiguracionSalidas.ReadInteger('CFG', 'TOP', 0 );
+  miconfiguracion.MUESTRAS:=ConfiguracionSalidas.ReadInteger('CFG', 'MUESTRAS', 1000 );
+  miconfiguracion.INTERVALOESTADO:=ConfiguracionSalidas.ReadInteger('CFG', 'INTERVALO', 10);
+  pitido:=false;
+  if miconfiguracion.SONIDO='SI' then pitido:=true;
+Application.ProcessMessages;
+   for j:=1 to miconfiguracion.NUMEROGRUPOS do
+   begin
+    for k:=1 to 4 do
+    begin
+    i:=4*(j-1)+k;
+    sl:='SALIDA_'+IntTostr(i);
+    prevsalida[i]:=salida[i]; salida[i].etiqueta:=ConfiguracionSalidas.ReadString(sl, 'ETIQUETA', IntToStr(i));
+    salida[i].tipotratamiento := ConfiguracionSalidas.ReadInteger(sl, 'TIPO_TRATAMIENTO', 0 );
+    salida[i].dosis := ConfiguracionSalidas.ReadFloat(sl, 'DOSIS', 1.0 );
+    salida[i].volumenVINO:= ConfiguracionSalidas.ReadInteger(sl, 'VOLUMEN', 10000);
+    aux:=ConfiguracionSalidas.ReadString(sl, 'UND_VOLUMEN', 'HL');
+    salida[i].factorvolumen := MAGLITROS;
+    If aux = 'HL' Then  salida[i].factorvolumen := MAGHL;
+    salida[i].duracion:= ConfiguracionSalidas.ReadInteger(sl, 'DURACION', 10);
+    aux:=ConfiguracionSalidas.ReadString(sl, 'UND_TIEMPO', 'MINUTOS');
+    salida[i].factorduracion := MAGMINUTOS;
+    If aux = 'HORAS' Then salida[i].factorduracion := MAGHORAS;
+    If aux = 'DIAS' Then salida[i].factorduracion := MAGDIAS;
+    If aux = 'MESES' Then salida[i].factorduracion := MAGMESES;
+    aux:=ConfiguracionSalidas.ReadString(sl, 'INCLUIR', 'NO');
+    salida[i].incluir:=False;
+    If aux = 'SI' Then  salida[i].incluir := True;
+     prevsalida[i]:=salida[i];
+     Application.ProcessMessages;
+     end;
+  end;
+    finally
+    ConfiguracionSalidas.Free;
+  end;
+   EstadoSalidas := TIniFile.Create( Application.Location+'\ESTADO_'+seccion+'.INI' );
+//   EstadoSalidas := TIniFile.Create( 'SD Card\ESTADO_'+seccion+'.INI' );
+  try
+   for j:=1 to miconfiguracion.NUMEROGRUPOS do
+   begin
+    for k:=1 to 4 do
+    begin
+    i:=4*(j-1)+k;
+    sl:='SALIDA_'+IntTostr(i);
+    salida[i].estadoproceso := EstadoSalidas.ReadInteger(sl, 'ESTADO', STFINALIZADO );
+    salida[i].tiemporestante := EstadoSalidas.ReadInteger(sl, 'TIEMPO_RESTANTE', 0 );
+    salida[i].volumenrestante := EstadoSalidas.ReadInteger(sl, 'VOLUMEN_RESTANTE', 0 );
+    salida[i].totalgas := EstadoSalidas.ReadInteger(sl, 'TOTAL_GAS', 0 );
+    salida[i].dosisacumulada := EstadoSalidas.ReadFloat(sl, 'DOSIS_ACUMULADA', 0.0 );
+    Application.ProcessMessages;
+    end;
+    end;
+   finally
+    EstadoSalidas.Free;
+  end;
+end;
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+ Function InitCalculos(sal: Integer):Integer;
+   var
+   mult,xt,baset,Qr,xv: Single;
+   begin
+        Result:= 0;
+        If (salida[sal].duracion = 0) Or (salida[sal].dosis = 0) Or (salida[sal].volumenVINO = 0) Then Exit;
+        If (salida[sal].estadoproceso = STFINALIZADO) Then
+        begin
+            mult := 60;                                                                 //Segundos en un minuto
+            If salida[sal].factorduracion = MAGHORAS Then mult:= 3600;                  // Segundos en una HORA
+            If salida[sal].factorduracion = MAGDIAS Then mult:= 86400;                  // Segundos en un DIA
+            If salida[sal].factorduracion = MAGMESES Then mult := 2678400;              // Segundos en un MES
+            xt := salida[sal].duracion * mult;
+            mult := 1;
+            If salida[sal].factorvolumen = MAGHL Then mult := 100;
+            xv := salida[sal].volumenVINO * mult;
+            Case salida[sal].tipotratamiento of
+             TTMICRO:     baset := 2678400; // Microdosificacion 31 dia*24h*3600s
+             TTMACRO:     baset := 86400;   // Macrodosificacion 24h*3600s
+             TTVARIABLE:  baset := xt;      // Dosificacion variable
+            end;
+            If baset <> 0 Then              //Para evitar un error de desbordamiento
+               begin
+                xv := salida[sal].dosis * xv ;
+                xv := (xv / baset);
+                xv := xt * xv;
+                end;
+            Qr := 0;
+            If (xt <> 0) Then  Qr := (xv / xt);
+            If (Qr > MAXQr) Or (xv > MAXml) Then
+               begin
+               Result:=2;
+                Exit; //El tratamiento no es posible
+               end;
+            salida[sal].totaltiempo := Round(xt);
+            salida[sal].totalvolumen := Round(xv);
+            salida[sal].volumenrestante := salida[sal].totalvolumen;
+            salida[sal].tiemporestante := salida[sal].totaltiempo;
+        end;
+        If (salida[sal].volumenrestante < 10) then
+                                        begin
+                                          salida[sal].volumenrestante:=0;
+                                          salida[sal].tiemporestante:=0;
+                                          salida[sal].incluir:=false;
+                                          salida[sal].estadoproceso:=STFINALIZADO;
+                                          result:=3;
+                                          exit;
+                                        end;
+        If (salida[sal].volumenrestante >MAXVOLUMEN) then
+                                        begin
+                                          salida[sal].incluir:=false;
+                                          salida[sal].estadoproceso:=STFINALIZADO;
+                                          result:=4;
+                                          exit;
+                                        end;
+        If (salida[sal].tiemporestante < 10) then
+                                        begin
+                                          salida[sal].volumenrestante:=0;
+                                           salida[sal].tiemporestante:=0;
+                                          salida[sal].incluir:=false;
+                                          salida[sal].estadoproceso:=STFINALIZADO;
+                                          result:=5;
+                                          exit;
+                                        end;
+        If (salida[sal].volumenrestante >MAXTIEMPO) then
+                                        begin
+                                          salida[sal].incluir:=false;
+                                          salida[sal].estadoproceso:=STFINALIZADO;
+                                          result:=6;
+                                          exit;
+                                        end;
+
+        Qr := salida[sal].volumenrestante / salida[sal].tiemporestante;
+             If (Qr > MAXQr) then
+                                        begin
+                                          salida[sal].incluir:=false;
+                                          salida[sal].estadoproceso:=STFINALIZADO;
+                                          result:=7;
+                                          exit;
+                                        end;
+
+
+        Result:= 1; //El tratamiento es posible
+    end;
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+Function EnviarTratamiento(sal:Integer):Integer;
+var
+   respuesta:String;
+   gp,sl,cr:integer;
+ begin
+        cr:=sal-1;// salidas de 1..16
+        gp:=(cr div 4 )+1;//grupos de 1..4
+        sl:=(cr mod 4 )+1;//salida dentro del grupo 1..4
+        Result:=0;
+        If salida[sal].tratamientoprevio = False Then                  //No existe un tratamiento previo
+        begin
+            salida[sal].prevtipotratamiento := salida[sal].tipotratamiento;
+            salida[sal].prevdosis := salida[sal].dosis;
+            salida[sal].prevvolumenVINO := salida[sal].volumenVINO;
+            salida[sal].prevduracion := salida[sal].duracion;
+            salida[sal].prevfactorduracion := salida[sal].factorduracion;
+            salida[sal].prevfactorvolumen := salida[sal].factorvolumen;
+            salida[sal].prevtotaltiempo := salida[sal].totaltiempo;
+            salida[sal].prevtotalvolumen := salida[sal].totalvolumen;
+        end;
+
+        salida[sal].intervalolog:=round(salida[sal].totaltiempo/miconfiguracion.MUESTRAS);
+        if (salida[sal].intervalolog<10) then salida[sal].intervalolog:=10;
+        salida[sal].tanterior:=salida[sal].totaltiempo;
+        salida[sal].fechainicio := Now();                            //hora de inicio para hacer el cálculo del tiempo teórico
+         //Recálculo del tiempo para controlar que finalizará correctamente en su tiempo
+        salida[sal].tiempoentrecomprobaciones := Round(salida[sal].prevtotaltiempo / 10);      //tramos del 20% del tiempo restante
+        If salida[sal].tiempoentrecomprobaciones < MINHOURINTIME Then salida[sal].tiempoentrecomprobaciones := MINHOURINTIME; //Para evitar que esté reentrando continuamente
+        respuesta:='';
+        if EnviarComando(gp,'N',sl,-1,'',respuesta,6)<>1 then exit;
+         salida[sal].estadoproceso := STDETENIDO;
+
+        If miconfiguracion.GAS = 'CO2' Then
+        begin
+                if EnviarComando(gp,'J',sl,1,'',respuesta,6)<>1 then exit;
+        end
+        else    if EnviarComando(gp,'J',sl,0,'',respuesta,6)<>1 then exit;
+        if EnviarComando(gp,'F',sl,salida[sal].volumenrestante,'',respuesta,6)<>1 then exit;
+        if EnviarComando(gp,'G',sl,salida[sal].tiemporestante,'',respuesta,6)<>1 then exit;
+        if EnviarComando(gp,'A',sl,-1,'',respuesta,6)<>1 then exit;
+        salida[sal].estadoproceso := STDOSIFICANDO;
+        salida[sal].grabarcada := Round(salida[sal].tiemporestante / MAXMUESTRAS);
+        If salida[sal].grabarcada = 0 Then  salida[sal].grabarcada := 1;
+        Result:= 1;
+    end;
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+ function EnviarComando(gp:integer;cmd:char;sal:integer;par:integer;send:string; var rcv:string;maxcr:integer):integer;
+var res:integer;
+    ss,rc:string;
+begin
+       result:=0;
+       if (sal>0) then
+       begin
+           	if (par<>-1) then ss:=format('#%d%s%d%d$',[gp,cmd,sal,par])
+                else	ss:=format('#%d%s%d$',[gp,cmd,sal]);                        //A,B,H,M,N,O,P,Q,R,S	//Variables del sistema
+        end
+	else	ss:=format('#%d%s$',[gp,send]);//sprintf(ss,"#%d%s$",dir,Send);                                         //F,G	Valores del tratamiento
+         salida[sal].error:=0;
+   repeat
+        EnviarDatos(ss);
+        rc:='';
+   	res:=RecibirDatos(rc,100,maxcr);
+           if res=0 then
+           begin
+		   salida[sal].error:=salida[sal].error+1;	                //Controla los reintentos dentro de la función
+                   salida[sal].run:=0;
+            end
+	   else
+           begin
+   		salida[sal].error:=0;                //Se resetean los errores acumulados
+		if(salida[sal].run<3) then salida[sal].run:=salida[sal].run+1;
+                result:=1;
+                rcv:=rc;
+                exit; 	                             	//devuelve 1(OK) o 2(ER), 3 basura
+          end;
+
+   until (salida[sal].error>MAXERRCOM);
+             rcv:=rc;
+end;
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+procedure EnviarDatos(ss:string);
+begin
+try
+WriteComP(comport,Pchar(ss),length(ss));
+finally
+end;
+end;
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+function RecibirDatos(var rc:string;tmout,lg:integer):integer;
+var tg:Tdatetime;
+    s,vc:string;
+    p:integer;
+begin
+tg:=IncMilliSecond(Now,tmout);
+result:=0;
+s:='';
+vc:='';
+try
+     repeat
+          s:=string(Readstr(comport));
+
+          if  Length(s) >0 then
+          begin
+
+                  vc:=vc+s;
+                    p:=Pos(#13#10,vc);
+                if (Length(vc)>=lg) OR (p>0) then
+                  begin
+                      result:=1;
+                      rc:=vc;
+                      exit;
+                  end;
+
+          end;
+     until Now>tg;
+
+finally
+rc:=vc;
+end;
+end;
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+function GetPresion(sal:integer):string;
+var
+md,cd:string;
+cr,gp,sl,p,q:integer;
+begin
+        cr:=sal-1;         // salidas de 1..16
+        gp:=(cr div 4 )+1;//grupos de 1..4
+        sl:=(cr mod 4 )+1;//salida dentro del grupo 1..4
+        Result :='';
+        md:='';
+        if (EnviarComando(gp,'C',sl,-1,'',md,20)<>1) then exit;
+        p := Pos('=',md);
+        If p > 0 Then
+        begin
+
+        p:=p+1;
+         q := Pos(',',md);
+            If q > p Then
+            begin
+                cd := copy(md,p, q - p);
+
+                  result:=cd;
+                exit;
+            end;
+         end;
+        p := Pos('X',md);
+        if p>0 then
+        begin
+           if (EnviarComando(gp,'N',sl,-1,'',md,6)<>1) then exit;
+            salida[sal].estadoproceso := STDETENIDO;
+        end;
+
+end;
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+function ArrancarProcesos():integer;
+var gp:integer;
+respuesta:string;
+begin
+result:=0;
+respuesta:='';
+ for gp:=1 to miconfiguracion.NUMEROGRUPOS do
+    begin
+           if EnviarComando(gp,'M',1,-1,'',respuesta,6)=1 then Result:=Result+1;
+           Sleep(100);
+     end;
+
+end;
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+procedure LogDatos(sl:integer;cd:string);
+var ficherolog:textfile;
+nombrefichero,carpeta:string;
+begin
+
+if (salida[sl].intervalolog<(salida[sl].tanterior-salida[sl].tiemporestante)) then exit;
+salida[sl].tanterior:=salida[sl].tiemporestante;
+
+If miconfiguracion.GRABARLOG='NO' then exit;
+//  carpeta:= extractfilepath(application.ExeName)+'LOG\'+inttostr(Yearof(Now))+'\SALIDA_'+inttostr(sl);
+ {$ifdef WINCE}
+   carpeta:= 'SD Card\LOG\'+seccion+'_'+inttostr(Yearof(Now))+'\SALIDA_'+inttostr(sl);
+  {$else}
+    carpeta:= extractfilepath(application.ExeName)+'LOG\'+seccion+'_'+inttostr(Yearof(Now))+'\SALIDA_'+inttostr(sl);
+   {$endif}
+  if not DirectoryExists (carpeta) then
+  if not ForceDirectories(carpeta) then
+     begin
+//     raise Exception.Create('ERROR No se puede crear '+ carpeta');
+     exit;
+     end;
+  nombrefichero:= carpeta+'\'+inttostr(Monthof(Now))+'-'+inttostr(Dayof(Now))+'.txt';
+  assignfile(ficherolog,nombrefichero);
+  if fileexists(nombrefichero)then
+   append(ficherolog)
+  else
+  rewrite(ficherolog);
+  writeln(ficherolog,cd);
+  closefile(ficherolog);
+end;
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+procedure Bip(duracion:integer);
+var durante:Integer;
+begin
+ {$ifdef WINCE}
+    If (pitido = True) and  (beepdriver <> INVALID_HANDLE_VALUE) Then
+           begin
+                DeviceIoControl(beepdriver, IOCTL_BUZZ_ON, nil, 0, nil, 0, nil, nil);
+                durante:=duracion*500;
+                while (durante>0) do
+                begin
+                    Application.ProcessMessages();
+                    durante := durante - 1;
+                end;
+                DeviceIoControl(beepdriver, IOCTL_BUZZ_OFF, nil, 0, nil, 0, nil, nil);
+           end;
+   {$else}
+   if pitido then SysUtils.Beep;
+  {$endif}
+
+end;
+//*********************************************************************************************************
+//
+//
+//*********************************************************************************************************
+procedure SonarAlarma();
+begin
+ if (pitido=true) then
+ begin
+    {$ifdef WINCE}
+    Bip(15);
+    {$else}
+   if (FileExists(sonidoalarma)) then
+    begin
+    sndPlaySound(PAnsiChar(sonidoalarma),SND_NODEFAULT Or SND_ASYNC);
+    sonando:=true;
+    end;
+    {$endif}
+ end;
+end;
+
+end.
+
