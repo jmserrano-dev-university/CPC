@@ -7,15 +7,16 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, u_rs232, u_inicial;
+  Forms, pl_excontrols, u_rs232, u_inicial, lavadora;
 
 
 {$R *.res}
 
 begin
-  Application.Title:='TEST CPC';
+  Application.Title:='Lavadora SALASER';
   Application.Initialize;
-  Application.CreateForm(TF_INICIAL, F_INICIAL);
+  //Application.CreateForm(TF_INICIAL, F_INICIAL);
+  Application.CreateForm(TForm2, Form2);
   Application.Run;
 end.
 

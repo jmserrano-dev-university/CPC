@@ -62,6 +62,7 @@ type
   procedure BT_RELE3Click(Sender: TObject);
   procedure BT_RELE4Click(Sender: TObject);
   procedure BT_RELE5Click(Sender: TObject);
+  procedure BT_SALIRClick(Sender: TObject);
 
   procedure FormActivate(Sender: TObject);
   procedure FormCreate(Sender: TObject);
@@ -311,6 +312,11 @@ begin
 Bip(2);
     if BT_RELE5.Down then    ActivarRele(5)
     else   DesActivarRele(5);
+end;
+
+procedure TF_INICIAL.BT_SALIRClick(Sender: TObject);
+begin
+
 end;
 
 //*********************************************************************************************************

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <CONFIG>
   <Compiler Value="C:\codetyphon\fpc\bin\i386-win32\fpc.exe" Date="1082958362"/>
-  <Params Value=" -MObjFPC -Scghi -O1 -Twince -Parm -g -gl -WG -vewnhi -l -FuC:\codetyphon\lazarus\components\pl_Cindy\lib\arm-wince -FuC:\codetyphon\lazarus\ideintf\units\arm-wince -FuC:\codetyphon\lazarus\lcl\units\arm-wince\wince -FuC:\codetyphon\lazarus\lcl\units\arm-wince -FuC:\codetyphon\lazarus\components\lazutils\lib\arm-wince -FuC:\codetyphon\lazarus\packager\units\arm-wince &quot;-FuC:\Users\SONY\Desktop\PRUEBA LAVADORA\&quot; -oQTEST.EXE -dLCL -dLCLwince PRUEBA_LAVADORA_V10.pas"/>
+  <Params Value=" -MObjFPC -Scghi -O1 -Twin32 -Pi386 -g -gl -WG -vewnhi -l -FuC:\codetyphon\lazarus\components\pl_Cindy\lib\i386-win32 -FuC:\codetyphon\lazarus\components\pl_ExControls\lib\i386-win32 -FuC:\codetyphon\lazarus\ideintf\units\i386-win32 -FuC:\codetyphon\lazarus\lcl\units\i386-win32\win32 -FuC:\codetyphon\lazarus\lcl\units\i386-win32 -FuC:\codetyphon\lazarus\components\lazutils\lib\i386-win32 -FuC:\codetyphon\lazarus\packager\units\i386-win32 &quot;-FuC:\Users\SONY\Desktop\CPC 2.0\CPC\&quot; -oQTEST.EXE -dLCL -dLCLwin32 PRUEBA_LAVADORA_V10.pas"/>
 </CONFIG>

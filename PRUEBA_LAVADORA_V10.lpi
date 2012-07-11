@@ -8,7 +8,7 @@
         <LRSInOutputDirectory Value="False"/>
       </Flags>
       <MainUnit Value="0"/>
-      <Title Value="TEST CPC"/>
+      <Title Value="Lavadora SALASER"/>
       <UseAppBundle Value="False"/>
       <Icon Value="0"/>
       <ActiveWindowIndexAtStart Value="0"/>
@@ -16,7 +16,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
-      <BuildNr Value="76"/>
+      <BuildNr Value="79"/>
       <Language Value="040A"/>
       <StringTable CompanyName="UNIVERSIDAD DE JAEN" ProductName="PRUEBA LAVADORA" InternalName="TEST.EXE" LegalCopyright="(C) 2012 DPTO. ELECTRONICA Y AUTOMATICA" ProductVersion="1.1.0"/>
     </VersionInfo>
@@ -35,27 +35,30 @@
         <CommandLineParams Value="A"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="3">
+    <RequiredPackages Count="4">
       <Item1>
-        <PackageName Value="pl_cindy"/>
+        <PackageName Value="pl_excontrols"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCLBase"/>
-        <MinVersion Major="1" Release="1" Valid="True"/>
+        <PackageName Value="pl_cindy"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="LCLBase"/>
+        <MinVersion Major="1" Release="1" Valid="True"/>
       </Item3>
+      <Item4>
+        <PackageName Value="LCL"/>
+      </Item4>
     </RequiredPackages>
-    <Units Count="23">
+    <Units Count="27">
       <Unit0>
         <Filename Value="PRUEBA_LAVADORA_V10.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="PRUEBA_LAVADORA_V10"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="4"/>
-        <CursorPos X="14" Y="2"/>
+        <TopLine Value="1"/>
+        <CursorPos X="5" Y="18"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -67,7 +70,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="28"/>
         <CursorPos X="33" Y="13"/>
-        <UsageCount Value="197"/>
+        <UsageCount Value="190"/>
       </Unit1>
       <Unit2>
         <Filename Value="u_main.pas"/>
@@ -75,8 +78,8 @@
         <UnitName Value="u_main"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="117"/>
-        <CursorPos X="16" Y="122"/>
+        <TopLine Value="64"/>
+        <CursorPos X="1" Y="78"/>
         <UsageCount Value="202"/>
         <Bookmarks Count="1">
           <Item0 X="1" Y="99" ID="0"/>
@@ -91,7 +94,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="103"/>
         <CursorPos X="36" Y="119"/>
-        <UsageCount Value="202"/>
+        <UsageCount Value="195"/>
       </Unit3>
       <Unit4>
         <Filename Value="u_dosis.pas"/>
@@ -101,7 +104,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="663"/>
         <CursorPos X="31" Y="668"/>
-        <UsageCount Value="196"/>
+        <UsageCount Value="189"/>
       </Unit4>
       <Unit5>
         <Filename Value="u_carga.pas"/>
@@ -111,7 +114,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="18" Y="13"/>
-        <UsageCount Value="207"/>
+        <UsageCount Value="200"/>
       </Unit5>
       <Unit6>
         <Filename Value="u_rs232.pas"/>
@@ -119,8 +122,8 @@
         <UnitName Value="u_rs232"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="44" Y="11"/>
+        <TopLine Value="162"/>
+        <CursorPos X="47" Y="52"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit6>
@@ -132,7 +135,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="612"/>
         <CursorPos X="19" Y="625"/>
-        <UsageCount Value="197"/>
+        <UsageCount Value="190"/>
       </Unit7>
       <Unit8>
         <Filename Value="u_setup.pas"/>
@@ -142,7 +145,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="290"/>
         <CursorPos X="19" Y="317"/>
-        <UsageCount Value="196"/>
+        <UsageCount Value="189"/>
       </Unit8>
       <Unit9>
         <Filename Value="u_calc.pas"/>
@@ -152,20 +155,20 @@
         <WindowIndex Value="0"/>
         <TopLine Value="357"/>
         <CursorPos X="18" Y="381"/>
-        <UsageCount Value="196"/>
+        <UsageCount Value="189"/>
       </Unit9>
       <Unit10>
         <Filename Value="C:\lazarus\lcl\dialogs.pp"/>
         <UnitName Value="Dialogs"/>
         <TopLine Value="13"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="867"/>
+        <UsageCount Value="860"/>
       </Unit10>
       <Unit11>
         <Filename Value="C:\pp\rtl\wince\wininc\coredll.inc"/>
         <TopLine Value="406"/>
         <CursorPos X="18" Y="465"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="5"/>
       </Unit11>
       <Unit12>
         <Filename Value="u_dialog.pas"/>
@@ -175,7 +178,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="34" Y="8"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="9"/>
       </Unit12>
       <Unit13>
         <Filename Value="u_sondas.pas"/>
@@ -185,7 +188,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="336"/>
         <CursorPos X="3" Y="386"/>
-        <UsageCount Value="95"/>
+        <UsageCount Value="88"/>
       </Unit13>
       <Unit14>
         <Filename Value="C:\lazarus\lcl\customtimer.pas"/>
@@ -193,7 +196,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="155"/>
         <CursorPos X="1" Y="182"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="9"/>
       </Unit14>
       <Unit15>
         <Filename Value="..\AGROVIN\SX16_2440_V114_TYPHON\u_main.pas"/>
@@ -201,7 +204,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="613"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="9"/>
       </Unit15>
       <Unit16>
         <Filename Value="C:\lazarus\lcl\utf8process.pp"/>
@@ -209,21 +212,21 @@
         <WindowIndex Value="0"/>
         <TopLine Value="49"/>
         <CursorPos X="28" Y="76"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="9"/>
       </Unit16>
       <Unit17>
         <Filename Value="C:\codetyphon\fpcsrc\rtl\win\wininc\struct.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="800"/>
         <CursorPos X="31" Y="809"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="3"/>
       </Unit17>
       <Unit18>
         <Filename Value="C:\codetyphon\fpcsrc\rtl\win\wininc\defines.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3037"/>
         <CursorPos X="6" Y="3051"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="3"/>
       </Unit18>
       <Unit19>
         <Filename Value="C:\codetyphon\lazarus\packager\registration\fcllaz.pas"/>
@@ -231,7 +234,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="3"/>
       </Unit19>
       <Unit20>
         <Filename Value="u_inicial.pas"/>
@@ -240,14 +243,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="u_inicial"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="183"/>
-        <CursorPos X="57" Y="183"/>
-        <UsageCount Value="32"/>
+        <TopLine Value="289"/>
+        <CursorPos X="37" Y="300"/>
+        <UsageCount Value="126"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit20>
       <Unit21>
         <Filename Value="u_flash.pas"/>
@@ -257,7 +258,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="6"/>
         <CursorPos X="44" Y="29"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="14"/>
       </Unit21>
       <Unit22>
         <Filename Value="C:\codetyphon\lazarus\lcl\interfaces\wince\wincewsmenus.pp"/>
@@ -265,90 +266,169 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1107"/>
         <CursorPos X="5" Y="1123"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="3"/>
       </Unit22>
+      <Unit23>
+        <Filename Value="lavadora.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form2"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="lavadora"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="671"/>
+        <CursorPos X="31" Y="674"/>
+        <UsageCount Value="114"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="C:\codetyphon\lazarus\components\pl_BGRAbitmap\sources\perspectivescan2.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="36" Y="10"/>
+        <UsageCount Value="45"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="C:\codetyphon\lazarus\components\pl_BGRAbitmap\sources\bgrapolygonaliased.pas"/>
+        <UnitName Value="BGRAPolygonAliased"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1018"/>
+        <CursorPos X="1" Y="1047"/>
+        <UsageCount Value="4"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="C:\codetyphon\fpcsrc\packages\palmunits\src\control.pp"/>
+        <UnitName Value="control"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="155"/>
+        <CursorPos X="20" Y="186"/>
+        <UsageCount Value="6"/>
+      </Unit26>
     </Units>
-    <JumpHistory Count="20" HistoryIndex="19">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="225" Column="25" TopLine="215"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="813" Column="85" TopLine="808"/>
       </Position1>
       <Position2>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="226" Column="25" TopLine="216"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="814" Column="85" TopLine="809"/>
       </Position2>
       <Position3>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="227" Column="25" TopLine="217"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="813" Column="85" TopLine="808"/>
       </Position3>
       <Position4>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="226" Column="25" TopLine="216"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="815" Column="85" TopLine="810"/>
       </Position4>
       <Position5>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="213" Column="1" TopLine="196"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="814" Column="85" TopLine="809"/>
       </Position5>
       <Position6>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="251" Column="1" TopLine="234"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="815" Column="85" TopLine="810"/>
       </Position6>
       <Position7>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="69" Column="51" TopLine="50"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="814" Column="85" TopLine="809"/>
       </Position7>
       <Position8>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="120" Column="59" TopLine="100"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="817" Column="73" TopLine="814"/>
       </Position8>
       <Position9>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="121" Column="59" TopLine="101"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="818" Column="73" TopLine="815"/>
       </Position9>
       <Position10>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="120" Column="59" TopLine="100"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="819" Column="73" TopLine="816"/>
       </Position10>
       <Position11>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="121" Column="59" TopLine="101"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="820" Column="73" TopLine="817"/>
       </Position11>
       <Position12>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="123" Column="59" TopLine="103"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="821" Column="73" TopLine="818"/>
       </Position12>
       <Position13>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="122" Column="59" TopLine="102"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="822" Column="73" TopLine="819"/>
       </Position13>
       <Position14>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="123" Column="59" TopLine="103"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="823" Column="73" TopLine="820"/>
       </Position14>
       <Position15>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="122" Column="59" TopLine="102"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="824" Column="73" TopLine="818"/>
       </Position15>
       <Position16>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="123" Column="59" TopLine="103"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="823" Column="73" TopLine="817"/>
       </Position16>
       <Position17>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="122" Column="59" TopLine="102"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="75" Column="21" TopLine="64"/>
       </Position17>
       <Position18>
         <Filename Value="u_inicial.pas"/>
-        <Caret Line="224" Column="22" TopLine="220"/>
+        <Caret Line="304" Column="14" TopLine="280"/>
       </Position18>
       <Position19>
-        <Filename Value="u_inicial.pas"/>
-        <Caret Line="223" Column="22" TopLine="219"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="286" Column="44" TopLine="270"/>
       </Position19>
       <Position20>
-        <Filename Value="u_main.pas"/>
-        <Caret Line="122" Column="15" TopLine="112"/>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="287" Column="10" TopLine="270"/>
       </Position20>
+      <Position21>
+        <Filename Value="u_inicial.pas"/>
+        <Caret Line="158" Column="4" TopLine="151"/>
+      </Position21>
+      <Position22>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="858" Column="1" TopLine="844"/>
+      </Position22>
+      <Position23>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="721" Column="25" TopLine="707"/>
+      </Position23>
+      <Position24>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="210" Column="29" TopLine="192"/>
+      </Position24>
+      <Position25>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="524" Column="18" TopLine="509"/>
+      </Position25>
+      <Position26>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="523" Column="18" TopLine="508"/>
+      </Position26>
+      <Position27>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="511" Column="58" TopLine="508"/>
+      </Position27>
+      <Position28>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="132" Column="22" TopLine="109"/>
+      </Position28>
+      <Position29>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="658" Column="47" TopLine="655"/>
+      </Position29>
+      <Position30>
+        <Filename Value="lavadora.pas"/>
+        <Caret Line="8" Column="69" TopLine="1"/>
+      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -361,8 +441,8 @@
       <IncludeFiles Value="$(ProjOutDir)"/>
     </SearchPaths>
     <CodeGeneration>
-      <TargetCPU Value="arm"/>
-      <TargetOS Value="wince"/>
+      <TargetCPU Value="i386"/>
+      <TargetOS Value="win32"/>
     </CodeGeneration>
     <Linking>
       <Options>

@@ -1,19 +1,19 @@
 object F_INICIAL: TF_INICIAL
-  Left = 259
-  Height = 480
-  Top = 193
-  Width = 800
+  Left = 490
+  Height = 496
+  Top = 133
+  Width = 799
   BorderIcons = []
   BorderStyle = bsNone
   BorderWidth = 1
   Caption = 'TEST PRUEBA LAVADORA'
-  ClientHeight = 480
-  ClientWidth = 800
+  ClientHeight = 496
+  ClientWidth = 799
   Color = clBtnFace
   OnActivate = FormActivate
   OnCreate = FormCreate
   Position = poDesktopCenter
-  LCLVersion = '0.9.31'
+  LCLVersion = '1.1'
   object LB_VERSION: TLabel
     Left = 8
     Height = 17
@@ -48,7 +48,7 @@ object F_INICIAL: TF_INICIAL
   object BT_SALIR: TBitBtn
     Left = 568
     Height = 91
-    Top = 360
+    Top = 361
     Width = 216
     Caption = '&Cerrar'
     Font.CharSet = ANSI_CHARSET
@@ -60,6 +60,7 @@ object F_INICIAL: TF_INICIAL
     Font.Style = [fsBold]
     Kind = bkClose
     ModalResult = 11
+    OnClick = BT_SALIRClick
     ParentFont = False
     TabOrder = 0
   end
